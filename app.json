@@ -2,6 +2,11 @@
   "expo": {
     "name": "ChatApp",
     "slug": "ChatApp",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "53a6a7ef-bd02-4805-84e5-10fdc210e2dc"
+      }
+    }
   }
 }
