@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { REACT_APP_BACKEND_URL } from "@env";
 import axios from "axios";
+import { REACT_APP_BACKEND_URL } from "@env";
 
 const LoginScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
@@ -14,15 +14,23 @@ const LoginScreen = ({ navigation }) => {
     const { email, password } = formData;
 
     try {
-      const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/login`, {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${REACT_APP_BACKEND_URL}/api/users/login`,
+        {
+          email: email,
+          password: password,
+        }
+      );
 
       if (response.status === 200) {
-        await AsyncStorage.setItem("sessionToken", response.data.session_token);
+        // Successfully logged in
+        await AsyncStorage.setItem(
+          "sessionToken",
+          response.data.user.session_token
+        );
         navigation.navigate("Home");
       } else {
+        // Handle other status codes if necessary
         Alert.alert("Login failed", "Invalid credentials");
       }
     } catch (error) {
