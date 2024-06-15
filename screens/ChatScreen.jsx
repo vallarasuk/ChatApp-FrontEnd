@@ -6,7 +6,6 @@ const ChatScreen = () => {
   return (
     <View style={styles.container}>
       <Text>This is the Chat Screen</Text>
-      {/* Chat functionality will be implemented here */}
     </View>
   );
 };
