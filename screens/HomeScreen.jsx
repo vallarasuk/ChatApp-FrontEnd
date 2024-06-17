@@ -5,6 +5,7 @@ import { View, Text, Button, StyleSheet, ScrollView, TouchableOpacity } from "re
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { REACT_APP_BACKEND_URL } from "@env";
+import { CommonActions } from "@react-navigation/native";
 import Layout from "../components/Layout"; // Ensure the correct path
 
 const HomeScreen = ({ navigation }) => {
@@ -26,7 +27,12 @@ const HomeScreen = ({ navigation }) => {
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem("sessionToken");
-      navigation.navigate("Login");
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Login" }],
+        })
+      );
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -54,6 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    padding: 20, // Added padding for better layout
   },
   title: {
     fontSize: 24,
@@ -62,6 +69,7 @@ const styles = StyleSheet.create({
   },
   userList: {
     marginTop: 20,
+    flex: 1, // Added flex to ensure scrollview takes remaining space
   },
   card: {
     backgroundColor: "#f0f0f0",

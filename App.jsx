@@ -1,4 +1,3 @@
-// App.js
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -37,12 +36,13 @@ const App = () => {
   if (isLoading) {
     return null; // Render loading indicator or splash screen while checking session
   }
+
   console.log("isAuthenticated--->", isAuthenticated);
 
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={"Login"}
+        initialRouteName={isAuthenticated ? "Home" : "Login"} // Set initial route conditionally
         screenOptions={{
           headerShown: false,
         }}
@@ -57,6 +57,7 @@ const App = () => {
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
+            {/* Optionally, you can add these to ensure the same structure is maintained */}
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
