@@ -1,4 +1,4 @@
-// /components/Layout.js
+// Layout.js
 
 import React from "react";
 import { View, StyleSheet } from "react-native";

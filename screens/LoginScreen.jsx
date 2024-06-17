@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { REACT_APP_BACKEND_URL } from "@env";
+import { REACT_APP_BACKEND_URL } from "@env"; 
 
 const LoginScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
@@ -23,14 +23,15 @@ const LoginScreen = ({ navigation }) => {
       );
 
       if (response.status === 200) {
-        // Successfully logged in
+        // Successfully logged in, save the session token
         await AsyncStorage.setItem(
           "sessionToken",
           response.data.user.session_token
         );
+
+        // Navigate to Home
         navigation.navigate("Home");
       } else {
-        // Handle other status codes if necessary
         Alert.alert("Login failed", "Invalid credentials");
       }
     } catch (error) {

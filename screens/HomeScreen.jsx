@@ -1,27 +1,20 @@
+// HomeScreen.js
+
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Button, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Layout from "../components/Layouts";
-import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { REACT_APP_BACKEND_URL } from "@env";
+import Layout from "../components/Layout"; // Ensure the correct path
 
-const HomeScreen = () => {
-  const navigation = useNavigation();
+const HomeScreen = ({ navigation }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${REACT_APP_BACKEND_URL}/api/users`); // Correct interpolation of URL
-        setUsers(response.data); // Set users state with fetched data
+        const response = await axios.get(`${REACT_APP_BACKEND_URL}/api/users`);
+        setUsers(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -60,7 +53,6 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingHorizontal: 16,
     backgroundColor: "#fff",
   },
   title: {

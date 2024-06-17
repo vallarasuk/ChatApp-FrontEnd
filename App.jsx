@@ -7,6 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import HomeScreen from "./screens/HomeScreen";
+import ChatScreen from "./screens/ChatScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
 const Stack = createStackNavigator();
 
@@ -35,7 +37,7 @@ const App = () => {
   if (isLoading) {
     return null; // Render loading indicator or splash screen while checking session
   }
-  console.log("isAuthenticated--->", isAuthenticated)
+  console.log("isAuthenticated--->", isAuthenticated);
 
   return (
     <NavigationContainer>
@@ -46,11 +48,18 @@ const App = () => {
         }}
       >
         {isAuthenticated ? (
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Chat" component={ChatScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+          </>
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Chat" component={ChatScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
           </>
         )}
       </Stack.Navigator>

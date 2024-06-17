@@ -4,17 +4,14 @@ import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { REACT_APP_BACKEND_URL } from "@env";
-import { useNavigation } from "@react-navigation/native";
 
-const SignUpScreen = () => {
+const SignUpScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     re_password: "",
   });
-
-  const navigation = useNavigation(); // Hook to get navigation object
 
   const [showPassword, setShowPassword] = useState(false);
 
