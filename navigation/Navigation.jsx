@@ -10,6 +10,7 @@ import SignUpScreen from "../screens/SignUpScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ChatScreen from "../screens/ChatScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import LocationPermissionHelper from "../helper/LocationPermissionHelper";
 
 const Stack = createStackNavigator();
 
@@ -51,7 +52,11 @@ const Navigation = () => {
 
   if (isLoading) {
     // Render a loading indicator while checking the login status
-    return <View style={styles.loading}><Text>Loading...</Text></View>;
+    return (
+      <View style={styles.loading}>
+        <Text>Loading...</Text>
+      </View>
+    );
   }
 
   return (
@@ -62,6 +67,10 @@ const Navigation = () => {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen
+              name="LocationPermission"
+              component={LocationPermissionHelper}
+            />
           </>
         ) : (
           <>
@@ -80,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
-  }
+  },
 });
 
 export default Navigation;

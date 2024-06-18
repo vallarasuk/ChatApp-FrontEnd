@@ -75,6 +75,9 @@ const LoginScreen = ({ navigation }) => {
       );
       return;
     }
+    console.log(emailOrMobile);
+    console.log(password);
+    console.log(REACT_APP_BACKEND_URL);
 
     try {
       const response = await axios.post(
@@ -84,12 +87,14 @@ const LoginScreen = ({ navigation }) => {
           password: password,
         }
       );
+      console.log(response);
       if (response.status === 200) {
         // Successfully logged in, save the session token
         await AsyncStorage.setItem(
           "sessionToken",
           response.data.user.session_token
         );
+        await AsyncStorage.setItem("userId", response.data.user.id.toString());
 
         // Navigate to Home
         navigation.navigate("Home");

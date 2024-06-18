@@ -121,7 +121,8 @@ const SignUpScreen = ({ navigation }) => {
           response.data.user.session_token
         );
 
-        navigation.navigate("Home");
+        // Navigate to LocationPermissionHelper
+        navigation.navigate("LocationPermission");
       } else {
         console.error(
           `${UNEXPECTED_STATUS_CODE_MESSAGE}: ${response.status}`,
