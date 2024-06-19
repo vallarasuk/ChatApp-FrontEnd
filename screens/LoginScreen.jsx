@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import { View, StyleSheet, ImageBackground, Alert, Image } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import { REACT_APP_BACKEND_URL } from "@env";
 import {
   useFonts,
   OpenSans_400Regular,
@@ -14,7 +12,6 @@ import {
 
 // Import constants from content module
 import {
-  LOGIN_TITLE,
   PASSWORD_LABEL,
   LOGIN_BUTTON_LABEL,
   CREATE_ACCOUNT_BUTTON_LABEL,
@@ -25,6 +22,7 @@ import {
   LOGIN_EMAIL_LABEL,
   SHOW_LOGIN_LOGO,
 } from "../content/content";
+import userApi from "../api/userApi";
 
 const LoginScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
@@ -44,7 +42,7 @@ const LoginScreen = ({ navigation }) => {
   });
 
   const handleLogin = async () => {
-    const { emailOrMobile, password, type } = formData;
+    const { emailOrMobile, password } = formData;
 
     // Basic validation for required fields
     if (!emailOrMobile || !password) {
@@ -75,18 +73,9 @@ const LoginScreen = ({ navigation }) => {
       );
       return;
     }
-    console.log(emailOrMobile);
-    console.log(password);
-    console.log(REACT_APP_BACKEND_URL);
 
     try {
-      const response = await axios.post(
-        `${REACT_APP_BACKEND_URL}/api/users/login`,
-        {
-          email: emailOrMobile,
-          password: password,
-        }
-      );
+      const response = await userApi.loginSession(emailOrMobile, password);
       console.log(response);
       if (response.status === 200) {
         // Successfully logged in, save the session token
@@ -97,7 +86,7 @@ const LoginScreen = ({ navigation }) => {
         await AsyncStorage.setItem("userId", response.data.user.id.toString());
 
         // Navigate to Home
-        navigation.navigate("Home");
+        navigation.navigate("Home"); // Ensure "Home" is the correct screen name in your navigation stack
       } else {
         // Handle invalid credentials or other errors
         setFormData((prevFormData) => ({

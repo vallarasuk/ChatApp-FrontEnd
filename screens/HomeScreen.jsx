@@ -1,5 +1,3 @@
-// HomeScreen.js
-
 import React, { useEffect, useState } from "react";
 import { View, Text, Button, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";

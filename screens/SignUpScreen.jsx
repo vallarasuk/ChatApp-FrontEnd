@@ -8,9 +8,7 @@ import {
   Image,
 } from "react-native";
 import { TextInput, Button } from "react-native-paper";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import { REACT_APP_BACKEND_URL } from "@env";
+import userApi from "../api/userApi";
 import {
   useFonts,
   OpenSans_400Regular,
@@ -101,26 +99,16 @@ const SignUpScreen = ({ navigation }) => {
     }
 
     try {
-      const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/users`, {
+      const response = await userApi.createUser(
         username,
         email,
         mobile_number,
         password,
-        re_password,
-      });
+        re_password
+      );
 
       if (response.status === 201) {
         Alert.alert("User created successfully");
-
-        await AsyncStorage.setItem(
-          "userData",
-          JSON.stringify(response.data.user)
-        );
-        await AsyncStorage.setItem(
-          "sessionToken",
-          response.data.user.session_token
-        );
-
         // Navigate to LocationPermissionHelper
         navigation.navigate("LocationPermission");
       } else {
