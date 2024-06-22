@@ -1,7 +1,7 @@
 // LoginScreen.jsx
 
 import React, { useState } from "react";
-import { View, StyleSheet, ImageBackground, Alert, Image } from "react-native";
+import { View, StyleSheet, ImageBackground, Image } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -9,6 +9,7 @@ import {
   OpenSans_400Regular,
   OpenSans_700Bold,
 } from "@expo-google-fonts/open-sans";
+import CustomAlert from "../helper/customAlert";
 
 // Import constants from content module
 import {
@@ -34,6 +35,10 @@ const LoginScreen = ({ navigation }) => {
       password: "",
     },
   });
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   // UseFonts hook to load fonts
   let [fontsLoaded] = useFonts({
@@ -65,18 +70,14 @@ const LoginScreen = ({ navigation }) => {
       fieldType = "email";
     } else {
       // Invalid input format
-      Alert.alert(
-        "Invalid Input",
-        "Please enter a valid email or 10-digit mobile number.",
-        [{ text: "OK" }],
-        { cancelable: true }
-      );
+      setAlertTitle("Invalid Input");
+      setAlertMessage("Please enter a valid email or 10-digit mobile number.");
+      setShowAlert(true);
       return;
     }
 
     try {
       const response = await userApi.loginSession(emailOrMobile, password);
-      console.log(response);
       if (response.status === 200) {
         // Successfully logged in, save the session token
         await AsyncStorage.setItem(
@@ -99,6 +100,20 @@ const LoginScreen = ({ navigation }) => {
       }
     } catch (error) {
       console.error("Error logging in:", error);
+      let errorMessage =
+        "An unexpected error occurred. Please try again later.";
+
+      // Check if the error is a 502 error
+      if (error.response && error.response.status === 502) {
+        errorMessage =
+          "Unable to connect to the server. Please try again later.";
+      }
+
+      // Display the error message using custom alert
+      setAlertTitle("Login Error");
+      setAlertMessage(errorMessage);
+      setShowAlert(true);
+
       // Handle network errors or other exceptions
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -119,6 +134,10 @@ const LoginScreen = ({ navigation }) => {
         [key]: "",
       },
     }));
+  };
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
   };
 
   if (!fontsLoaded) {
@@ -183,6 +202,13 @@ const LoginScreen = ({ navigation }) => {
           {CREATE_ACCOUNT_BUTTON_LABEL}
         </Button>
       </View>
+
+      <CustomAlert
+        visible={showAlert}
+        title={alertTitle}
+        message={alertMessage}
+        onClose={handleCloseAlert}
+      />
     </ImageBackground>
   );
 };
