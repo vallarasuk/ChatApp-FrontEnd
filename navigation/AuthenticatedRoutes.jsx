@@ -1,8 +1,6 @@
-// src/navigation/AuthenticatedRoutes.js
-
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StatusBar, View, StyleSheet } from "react-native"; // Import StatusBar for status bar customization
+import { StatusBar, View, StyleSheet, Platform } from "react-native"; // Import Platform from react-native
 import HomeScreen from "../screens/HomeScreen";
 import ChatScreen from "../screens/ChatScreen";
 import ProfileScreen from "../screens/ProfileScreen";
@@ -14,7 +12,6 @@ const AuthenticatedRoutes = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />{" "}
-      {/* Customize status bar */}
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
