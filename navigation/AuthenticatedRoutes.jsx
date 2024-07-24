@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 const AuthenticatedRoutes = () => {
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="white" />{" "}
+      <StatusBar barStyle="dark-content" backgroundColor="white" /> 
       <Stack.Navigator
         screenOptions={{
           headerShown: false,

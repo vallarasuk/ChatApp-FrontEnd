@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"; // Import 
 
 // Arrow function to validate the session token
 const validateSessionToken = async (sessionToken, userId) => {
+
   try {
     const response = await axios.post(USER_API.VALIDATE_SESSION, {
       sessionToken,
@@ -57,13 +58,17 @@ const createUser = async (
 };
 
 // Function to log in with session
-const loginSession = async (emailOrMobile, password) => {
+const loginSession = async (emailOrMobile, password, status) => {
   try {
     const response = await axios.post(USER_API.LOGIN_SESSION, {
       email: emailOrMobile,
       password: password,
     });
-    return response.data;
+
+    return {
+      data: response.data,
+      status: response.status, // Include status from Axios response
+    };
   } catch (error) {
     console.error("Error logging in:", error);
     throw error; // Propagate the error for handling in the caller function
