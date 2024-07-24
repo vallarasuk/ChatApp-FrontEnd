@@ -1,15 +1,13 @@
-// LoginScreen.jsx
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ImageBackground, Image } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  useFonts,
-  OpenSans_400Regular,
-  OpenSans_700Bold,
-} from "@expo-google-fonts/open-sans";
+import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+import { useFonts, OpenSans_400Regular, OpenSans_700Bold } from "@expo-google-fonts/open-sans";
 import CustomAlert from "../helper/customAlert";
+import userApi from "../api/userApi";
+import * as Google from 'expo-auth-session'; // Import Google from expo-auth-session
 
 // Import constants from content module
 import {
@@ -23,13 +21,24 @@ import {
   LOGIN_EMAIL_LABEL,
   SHOW_LOGIN_LOGO,
 } from "../content/content";
-import userApi from "../api/userApi";
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBqORAckUgiwnkX1yTIAeK5mBP5M4wUHx0",
+  authDomain: "chatapp2143.firebaseapp.com",
+  projectId: "chatapp2143",
+  storageBucket: "chatapp2143.appspot.com",
+  messagingSenderId: "89178422738",
+  appId: "1:89178422738:web:72ff6f6651c826d5095c0b",
+  measurementId: "G-V38272KCHG"
+};
+// Initialize Firebase app with config
+const app = initializeApp(firebaseConfig);
 
 const LoginScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
     emailOrMobile: "",
     password: "",
-    type: "", // "email" or "mobile"
     errors: {
       emailOrMobile: "",
       password: "",
@@ -46,9 +55,13 @@ const LoginScreen = ({ navigation }) => {
     OpenSans_700Bold,
   });
 
+  const auth = getAuth(app);
+
   const handleLogin = async () => {
     const { emailOrMobile, password } = formData;
 
+    console.log("Logging in with:", emailOrMobile); // Log email or mobile number
+    
     // Basic validation for required fields
     if (!emailOrMobile || !password) {
       setFormData((prevFormData) => ({
@@ -71,23 +84,24 @@ const LoginScreen = ({ navigation }) => {
     } else {
       // Invalid input format
       setAlertTitle("Invalid Input");
-      setAlertMessage("Please enter a valid email or 10-digit mobile number.");
+      setAlertMessage(
+        "Please enter a valid email or 10-digit mobile number."
+      );
       setShowAlert(true);
       return;
     }
 
     try {
       const response = await userApi.loginSession(emailOrMobile, password);
+      console.log("Login API Response:", response); // Log API response
+
       if (response.status === 200) {
-        // Successfully logged in, save the session token
-        await AsyncStorage.setItem(
-          "sessionToken",
-          response.data.user.session_token
-        );
+        // Successfully logged in, save the session token and user ID
+        await AsyncStorage.setItem("sessionToken", response.data.user.session_token);
         await AsyncStorage.setItem("userId", response.data.user.id.toString());
 
-        // Navigate to Home
-        navigation.navigate("Home"); // Ensure "Home" is the correct screen name in your navigation stack
+        // Navigate to Home screen
+        navigation.navigate("Home");
       } else {
         // Handle invalid credentials or other errors
         setFormData((prevFormData) => ({
@@ -140,12 +154,62 @@ const LoginScreen = ({ navigation }) => {
     setShowAlert(false);
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      await Google.initAsync({
+        androidClientId: "YOUR_ANDROID_CLIENT_ID",
+        iosClientId: "YOUR_IOS_CLIENT_ID",
+      });
+
+      const { type, user } = await Google.logInAsync({
+        scopes: ["profile", "email"],
+      });
+
+      console.log("Google Sign-In Response:", type, user); // Log Google Sign-In response
+
+      if (type === "success") {
+        // Obtain the ID token and access token for Firebase authentication
+        const { idToken, accessToken } = user.auth;
+
+        console.log("Google Tokens:", idToken, accessToken); // Log tokens
+        
+        // Create Firebase credential
+        const credential = GoogleAuthProvider.credential(idToken, accessToken);
+        const result = await signInWithCredential(auth, credential);
+
+        // Successfully signed in with Firebase
+        console.log("Firebase User Info:", result.user);
+
+        // Navigate to Home or perform additional actions after sign-in
+        navigation.navigate("Home");
+      } else {
+        // Handle other types of responses
+        setAlertTitle("Google Sign-In Error");
+        setAlertMessage("An error occurred during Google Sign-In.");
+        setShowAlert(true);
+      }
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+      // Handle errors related to Google Sign-In
+      setAlertTitle("Google Sign-In Error");
+      setAlertMessage("An error occurred during Google Sign-In.");
+      setShowAlert(true);
+    }
+  };
+
+  useEffect(() => {
+    console.log("Fonts Loaded:", fontsLoaded); // Log fonts loaded status
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
     return null;
   }
 
   return (
-    <ImageBackground source={BACKGROUND_IMAGE} style={styles.backgroundImage}>
+    <ImageBackground
+      source={BACKGROUND_IMAGE}
+      style={styles.backgroundImage}
+    >
       <View style={styles.container}>
         {SHOW_LOGIN_LOGO ? (
           <View style={styles.logoContainer}>
@@ -201,6 +265,15 @@ const LoginScreen = ({ navigation }) => {
         >
           {CREATE_ACCOUNT_BUTTON_LABEL}
         </Button>
+
+        {/* Google Sign-In Button */}
+        <Button
+          onPress={handleGoogleSignIn}
+          style={styles.button}
+          labelStyle={styles.buttonText}
+        >
+          Sign in with Google
+        </Button>
       </View>
 
       <CustomAlert
@@ -228,7 +301,7 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 12,
     fontFamily: "OpenSans_400Regular",
-    backgroundColor: "None",
+    backgroundColor: "transparent",
   },
   button: {
     marginTop: 10,
