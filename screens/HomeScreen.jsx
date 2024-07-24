@@ -36,21 +36,27 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  const navigateToProfile = (userId) => {
+    navigation.navigate("Profile", { userId }); // Navigate to ProfileScreen with userId
+  };
+
   return (
-    <Layout>
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome to HomeScreen</Text>
-        <ScrollView style={styles.userList}>
-          {users.map((user) => (
-            <TouchableOpacity key={user.id} style={styles.card}>
-              <Text style={styles.cardText}>{user.username}</Text>
-              <Text style={styles.cardText}>{user.email}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-        <Button title="Logout" onPress={handleLogout} />
-      </View>
-    </Layout>
+    <View style={styles.container}>
+      <Text style={styles.title}>Welcome to HomeScreen</Text>
+      <ScrollView style={styles.userList}>
+        {users.map((user) => (
+          <TouchableOpacity
+            key={user.id}
+            style={styles.card}
+            onPress={() => navigateToProfile(user.id)} // Pass user.id to navigateToProfile function
+          >
+            <Text style={styles.cardText}>{user.username}</Text>
+            <Text style={styles.cardText}>{user.email}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+      <Button title="Logout" onPress={handleLogout} />
+    </View>
   );
 };
 
