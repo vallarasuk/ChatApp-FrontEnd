@@ -110,7 +110,8 @@ const SignUpScreen = ({ navigation }) => {
       if (response.status === 201) {
         Alert.alert("User created successfully");
         // Navigate to LocationPermissionHelper
-        navigation.navigate("LocationPermission");
+        // navigation.navigate("LocationPermission");
+        navigation.navigate("CategorySelection");
       } else {
         console.error(
           `${UNEXPECTED_STATUS_CODE_MESSAGE}: ${response.status}`,
