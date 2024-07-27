@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Button, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { REACT_APP_BACKEND_URL } from "@env";
 import { CommonActions } from "@react-navigation/native";
-import Layout from "../components/Layout"; // Ensure the correct path
 
 const HomeScreen = ({ navigation }) => {
   const [users, setUsers] = useState([]);
@@ -42,7 +48,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to HomeScreen</Text>
+      <Text style={styles.title}>Welcome Screen</Text>
       <ScrollView style={styles.userList}>
         {users.map((user) => (
           <TouchableOpacity
