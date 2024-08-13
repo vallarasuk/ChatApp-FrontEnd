@@ -6,7 +6,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage"; // Import 
 
 // Arrow function to validate the session token
 const validateSessionToken = async (sessionToken, userId) => {
-
   try {
     const response = await axios.post(USER_API.VALIDATE_SESSION, {
       sessionToken,
@@ -75,9 +74,21 @@ const loginSession = async (emailOrMobile, password, status) => {
   }
 };
 
+// Function to fetch the list of users
+const fetchUserList = async () => {
+  try {
+    const response = await axios.get(USER_API.USER_LIST);
+    return response.data; // Return the list of users
+  } catch (error) {
+    console.error("Error fetching user list:", error);
+    throw error; // Propagate the error for handling in the caller function
+  }
+};
+
 // Exporting all functions as an object
 export default {
   validateSessionToken,
   loginSession,
   createUser, // Include the createUser function in the export
+  fetchUserList,
 };

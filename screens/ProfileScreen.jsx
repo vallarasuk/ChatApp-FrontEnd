@@ -1,6 +1,7 @@
+// src/screens/ProfileScreen.js
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet, Text, View } from "react-native";
+import ProfileMainScreen from "../screens/ProfileMainScreen"; // Import the ProfileMainScreen component
 
 const Stack = createStackNavigator();
 
@@ -11,26 +12,9 @@ const ProfileScreen = () => {
         headerShown: true,
       }}
     >
-      <Stack.Screen name="ProfileMain" component={ProfileMainScreen} />
+      <Stack.Screen name="ProfileMainScreen" component={ProfileMainScreen} />
     </Stack.Navigator>
   );
 };
-
-const ProfileMainScreen = () => {
-  return (
-    <View style={styles.container}>
-      <Text>This is the Profile Screen</Text>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-});
 
 export default ProfileScreen;

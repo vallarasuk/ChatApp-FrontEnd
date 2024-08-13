@@ -1,3 +1,4 @@
+// src/screens/HomeScreen.js
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -42,8 +43,8 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
-  const navigateToProfile = (userId) => {
-    navigation.navigate("Profile", { userId }); // Navigate to ProfileScreen with userId
+  const navigateToProfile = (user) => {
+    navigation.navigate("ProfileMainScreen", { user });
   };
 
   return (
@@ -54,7 +55,7 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity
             key={user.id}
             style={styles.card}
-            onPress={() => navigateToProfile(user.id)} // Pass user.id to navigateToProfile function
+            onPress={() => navigateToProfile(user)}  
           >
             <Text style={styles.cardText}>{user.username}</Text>
             <Text style={styles.cardText}>{user.email}</Text>
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20, // Added padding for better layout
+    padding: 20,
   },
   title: {
     fontSize: 24,
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
   },
   userList: {
     marginTop: 20,
-    flex: 1, // Added flex to ensure scrollview takes remaining space
+    flex: 1,
   },
   card: {
     backgroundColor: "#f0f0f0",

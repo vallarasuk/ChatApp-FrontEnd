@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "../screens/LoginScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import CategorySelectionScreen from "../screens/CategorySelectionScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ const UnauthenticatedRoutes = () => {
         name="CategorySelection"
         component={CategorySelectionScreen}
       />
+      <Stack.Screen name="ProfileMain" component={ProfileScreen} />
     </Stack.Navigator>
   );
 };

@@ -6,4 +6,5 @@ export const USER_API = {
   VALIDATE_SESSION: `${BASE_URL}/api/users/validate-session`,
   LOGIN_SESSION: `${BASE_URL}/api/users/login`,
   USER_CREATE: `${BASE_URL}/api/users`,
+  USER_LIST: `${BASE_URL}/api/users`,
 };
