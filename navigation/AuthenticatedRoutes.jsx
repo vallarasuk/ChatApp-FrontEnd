@@ -19,7 +19,7 @@ const AuthenticatedRoutes = () => {
       >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Chat" component={ChatScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="ProfileMain" component={ProfileScreen} />
         <Stack.Screen
           name="LocationPermission"
           component={LocationPermissionHelper}
