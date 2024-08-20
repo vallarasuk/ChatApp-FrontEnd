@@ -23,7 +23,7 @@ const ProfileMainScreen = ({ route }) => {
       try {
         if (user && user.id) {
           const response = await axios.get(
-            `${REACT_APP_BACKEND_URL}/api/users/${user.id}`
+            `${REACT_APP_BACKEND_URL}api/users/${user.id}`
           );
           setProfileData(response.data);
         } else {

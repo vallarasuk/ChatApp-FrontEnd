@@ -46,7 +46,7 @@ const LocationPermissionHelper = ({ navigation }) => {
       const user = JSON.parse(userData);
 
       await axios.put(
-        `${REACT_APP_BACKEND_URL}/api/users/${user.id}/update-location`,
+        `${REACT_APP_BACKEND_URL}api/users/${user.id}/update-location`,
         {
           default_location: locationString,
         },

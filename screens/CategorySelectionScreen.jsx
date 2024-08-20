@@ -24,7 +24,7 @@ const CategorySelectionScreen = ({ navigation, route }) => {
       try {
         // Fetch categories
         const categoriesResponse = await axios.get(
-          `${REACT_APP_BACKEND_URL}/api/categories`
+          `${REACT_APP_BACKEND_URL}api/categories`
         );
         const categoriesData = categoriesResponse.data.map((category) => ({
           id: category.object_id,
@@ -33,7 +33,7 @@ const CategorySelectionScreen = ({ navigation, route }) => {
 
         // Fetch age categories
         const ageCategoriesResponse = await axios.get(
-          `${REACT_APP_BACKEND_URL}/api/age-categories`
+          `${REACT_APP_BACKEND_URL}api/age-categories`
         );
         const ageCategoriesData = ageCategoriesResponse.data.map(
           (ageCategory) => ({
@@ -92,7 +92,7 @@ const CategorySelectionScreen = ({ navigation, route }) => {
     }
 
     try {
-      await axios.put(`${REACT_APP_BACKEND_URL}/api/users/${userId}/category`, {
+      await axios.put(`${REACT_APP_BACKEND_URL}api/users/${userId}/category`, {
         categories: Array.from(selectedCategoryIds),
         ageCategory: selectedAgeCategoryId,
       });
