@@ -25,7 +25,7 @@
         "foregroundImage": "../assets/images/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.vallarasu_kanthasamy.myapp"
+      "package": "com.chatapp.com"
     },
     "web": {
       "favicon": "../assets/images/icon.png"
