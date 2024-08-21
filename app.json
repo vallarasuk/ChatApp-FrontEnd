@@ -3,6 +3,33 @@
     "name": "ChatApp",
     "slug": "chatapp",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "../assets/images/icon.png",
+    "scheme": "chatapp",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "../assets/images/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chatapp.com"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "../assets/images/icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.vallarasu_kanthasamy.myapp"
+    },
+    "web": {
+      "favicon": "../assets/images/icon.png"
+    },
     "extra": {
       "eas": {
         "projectId": "6cb8f885-30ef-41f2-b2d6-20f4eeb7625d"
