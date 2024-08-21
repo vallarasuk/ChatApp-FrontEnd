@@ -1,12 +1,13 @@
 {
   "expo": {
     "name": "ChatApp",
-    "slug": "ChatApp",
+    "slug": "chatapp",
     "version": "1.0.0",
     "extra": {
       "eas": {
-        "projectId": "53a6a7ef-bd02-4805-84e5-10fdc210e2dc"
+        "projectId": "6cb8f885-30ef-41f2-b2d6-20f4eeb7625d"
       }
-    }
+    },
+    "owner": "vallarasu_kanthasamy"
   }
 }
